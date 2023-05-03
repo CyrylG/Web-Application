@@ -57,7 +57,7 @@ class Application < Sinatra::Base
     repo = AlbumRepository.new
     artists = ArtistRepository.new
     @album = repo.find(params[:id])
-    # @artist = artists.find(@album.artist_id.)
+    @artist = artists.find(@album.artist_id)
 
     return erb(:album)
   end
