@@ -52,4 +52,13 @@ class Application < Sinatra::Base
     end.join(', ')
     return response
   end
+
+  get '/albums/:id' do
+    repo = AlbumRepository.new
+    artists = ArtistRepository.new
+    @album = repo.find(params[:id])
+    # @artist = artists.find(@album.artist_id.)
+
+    return erb(:album)
+  end
 end
