@@ -28,4 +28,9 @@ class Application < Sinatra::Base
     sorted_names = names.split(",").sort.join(",")
     return sorted_names
   end
+
+  get "/" do
+    @name = 'Cyryl'
+    return erb(:index)
+  end
 end

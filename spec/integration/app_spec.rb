@@ -33,4 +33,19 @@ describe Application do
       expect(response.body).to eq("Alice,Joe,Julia,Kieran,Zoe")
     end
   end
+
+  context "GET to /" do
+    it "contains a h1 title" do
+      response = get("/")
+
+      expect(response.status).to eq 200
+      expect(response.body).to include("<h1>Hello Cyryl!</h1>")
+    end
+
+    it "contains a div" do
+      response = get('/')
+
+      expect(response.body).to include('<div>')
+    end
+  end
 end
