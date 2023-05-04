@@ -8,6 +8,12 @@ def reset_albums_table
   connection.exec(seed_sql)
 end
 
+def reset_artists_table
+  seed_sql = File.read('spec/seeds/artists_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'music_library_test' })
+  connection.exec(seed_sql)
+end
+
 describe Application do
   # This is so we can use rack-test helper methods.
   include Rack::Test::Methods
@@ -18,6 +24,10 @@ describe Application do
 
   before(:each) do
     reset_albums_table
+  end
+
+  before(:each) do 
+    reset_artists_table
   end
 
   context "POST /albums" do
@@ -73,6 +83,26 @@ describe Application do
       expect(response.status).to eq 200
       expect(response.body).to include('<a href="/albums/1">Doolittle</a>')
       expect(response.body).to include('<a href="/albums/5">Bossanova</a>')
+    end
+  end
+
+  context "GET /artists/1" do
+    it "returns first artist" do
+      response = get("/artists/1")
+
+      expect(response.status).to eq 200
+      expect(response.body).to include("<h1>Pixies</h1>")
+      expect(response.body).to include("Genre: Rock")
+    end
+  end
+
+  context "GET /artists" do
+    it "returns list of artists" do
+      response = get("/artists")
+
+      expect(response.status).to eq 200
+      expect(response.body).to include('<a href="/artists/1">Pixies</a>')
+      expect(response.body).to include('<a href="/artists/3">Taylor Swift</a>')
     end
   end
 end

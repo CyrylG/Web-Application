@@ -1,20 +1,20 @@
 # file: app.rb
-require 'sinatra'
+require "sinatra"
 require "sinatra/reloader"
-require_relative 'lib/database_connection'
-require_relative 'lib/album_repository'
-require_relative 'lib/artist_repository'
+require_relative "lib/database_connection"
+require_relative "lib/album_repository"
+require_relative "lib/artist_repository"
 
 DatabaseConnection.connect
 
 class Application < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
-    also_reload 'lib/album_repository'
-    also_reload 'lib/artist_repository'
+    also_reload "lib/album_repository"
+    also_reload "lib/artist_repository"
   end
 
-  post '/albums' do
+  post "/albums" do
     repo = AlbumRepository.new
     new_album = Album.new
     new_album.title = params[:title]
@@ -22,42 +22,47 @@ class Application < Sinatra::Base
     new_album.artist_id = params[:artist_id]
 
     repo.create(new_album)
-    return ('')
+    return ("")
   end
 
-  get '/albums' do
+  get "/albums" do
     repo = AlbumRepository.new
     @albums = repo.all
     @artists = ArtistRepository.new
-    
+
     return erb(:albums)
   end
 
-  post '/artists' do
+  post "/artists" do
     repo = ArtistRepository.new
     new_artist = Artist.new
     new_artist.name = params[:name]
     new_artist.genre = params[:genre]
 
     repo.create(new_artist)
-    return ('')
+    return ("")
   end
 
-  get '/artists' do
+  get "/artists" do
     repo = ArtistRepository.new
-    artists = repo.all
-    response = artists.map do |artist|
-      artist.name
-    end.join(', ')
-    return response
+    @artists = repo.all
+    
+    return erb(:artists)
   end
 
-  get '/albums/:id' do
+  get "/albums/:id" do
     repo = AlbumRepository.new
     artists = ArtistRepository.new
     @album = repo.find(params[:id])
     @artist = artists.find(@album.artist_id)
 
     return erb(:album)
+  end
+
+  get "/artists/:id" do
+    repo = ArtistRepository.new
+    @artist = repo.find(params[:id])
+
+    return erb(:artist)
   end
 end

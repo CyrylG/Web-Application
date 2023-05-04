@@ -29,7 +29,6 @@ class ArtistRepository
   def find(id)
     sql = 'SELECT id, name, genre FROM artists WHERE id = $1;'
     result_set = DatabaseConnection.exec_params(sql, [id])
-
     artist = Artist.new
     artist.id = result_set[0]['id'].to_i
     artist.name = result_set[0]['name']
