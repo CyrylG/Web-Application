@@ -3,11 +3,8 @@
   <body>
     <h1>Albums</h1>
     <% @albums.each do |album| %>
-        <div>
-            Title: <%= album.title %>
-            Released: <%= album.release_year %>
-            Artist: <%= @artists.find(album.artist_id).name %>
-        </div>
+        <a href="/albums/<%= album.id %>"><%=
+        album.title %></a><br />
     <% end %>
   </body>
 </html>
