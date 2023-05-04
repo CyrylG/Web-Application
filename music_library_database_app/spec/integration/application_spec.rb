@@ -114,7 +114,7 @@ describe Application do
       expect(response.body).to include('<h1>Add an artist</h1>')
   
       # Assert we have the correct form tag with the action and method.
-      expect(response.body).to include('<form action="/artists" method="POST">')
+      expect(response.body).to include('<form action="/artists/created" method="POST">')
   
       # We can assert more things, like having
       # the right HTML form inputs, etc.
