@@ -50,6 +50,43 @@ class Application < Sinatra::Base
     return erb(:artists)
   end
 
+  get "/artists/new" do
+
+    return erb(:new_artist)
+  end
+
+  post '/artists/created' do
+    
+    if invalid_request_parameters?
+      status 400
+      break
+    end
+
+    # Get request body parameters
+    name = params[:name]
+    genre = params[:genre]
+  
+    # Do something useful, like creating a post
+    # in a database.
+    new_artist = Artist.new
+    new_artist.name = name
+    new_artist.genre = genre
+    ArtistRepository.new.create(new_artist)
+  
+    # Return a view to confirm
+    # the form submission or resource creation
+    # to the user.
+    return erb(:artist_created)
+  end
+
+  def invalid_request_parameters?
+    return true if params[:name] == nil || params[:genre] == nil
+
+    return true if params[:name] == "" || params[:genre] == ""
+
+    return false
+  end
+
   get "/albums/:id" do
     repo = AlbumRepository.new
     artists = ArtistRepository.new
