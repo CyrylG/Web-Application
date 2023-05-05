@@ -1,4 +1,4 @@
-require 'sinatra/base'
+require "sinatra/base"
 require "sinatra/reloader"
 
 class Application < Sinatra::Base
@@ -6,15 +6,15 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  get '/' do
+  get "/" do
     return erb(:index)
   end
 
-  post '/hello' do
-    # if params[:name].include?("<script>")
-    #   status 400
-    #   return ""
-    # end
+  post "/hello" do
+    if params[:name].include?("<script>")
+      status 400
+      return erb(:hello)
+    end
     @name = params[:name]
 
     return erb(:hello)
