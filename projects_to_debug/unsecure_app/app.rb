@@ -11,12 +11,13 @@ class Application < Sinatra::Base
   end
 
   post "/hello" do
-    if params[:name].include?("<script>")
+    @name = params[:name]
+    
+    if @name.include?("<script>")
       status 400
       return erb(:hello)
     end
-    @name = params[:name]
-
+    
     return erb(:hello)
   end
 end
