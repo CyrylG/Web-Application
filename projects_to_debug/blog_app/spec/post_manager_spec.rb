@@ -2,7 +2,7 @@ require 'post'
 require 'post_manager'
 
 describe PostManager do
-  it 'adds new post' do
+  xit 'adds new post' do
     manager = PostManager.new
     new_post = Post.new('Test post', 'Hello!', ['coding'])
 
@@ -11,7 +11,7 @@ describe PostManager do
     expect(manager.all_posts).to include(new_post)
   end
 
-  xit 'adds new post' do
+  it 'adds new post' do
     manager = PostManager.new
     new_post_coding = Post.new('Test post', 'Hello!', ['coding'])
     new_post_music = Post.new('Another test post', 'Hi!', ['music'])
