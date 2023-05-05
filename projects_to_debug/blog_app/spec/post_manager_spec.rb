@@ -2,7 +2,7 @@ require 'post'
 require 'post_manager'
 
 describe PostManager do
-  xit 'adds new post' do
+  it 'adds new post' do
     manager = PostManager.new
     new_post = Post.new('Test post', 'Hello!', ['coding'])
 
