@@ -57,7 +57,7 @@ class Application < Sinatra::Base
 
   post '/artists/created' do
     
-    if invalid_request_parameters?
+    if invalid_request_parameters
       status 400
       break
     end
@@ -79,11 +79,49 @@ class Application < Sinatra::Base
     return erb(:artist_created)
   end
 
-  def invalid_request_parameters?
+  def invalid_request_parameters
     return true if params[:name] == nil || params[:genre] == nil
 
     return true if params[:name] == "" || params[:genre] == ""
 
+    return false
+  end
+
+  get '/albums/new' do
+    return erb(:new_album)
+  end
+
+  post '/albums/created' do
+
+    if invalid_request_parameters?
+      status 400
+      break
+    end
+  
+    title = params[:title]
+    release_year = params[:release_year]
+    artist_id = params[:artist_id]
+  
+    new_album = Album.new
+    new_album.title = title
+    new_album.release_year = release_year
+    new_album.artist_id = artist_id
+    AlbumRepository.new.create(new_album)
+  
+    # Return a view to confirm
+    # the form submission or resource creation
+    # to the user.
+    return erb(:albums_created)
+  end
+
+  
+  def invalid_request_parameters?
+    # Are the params nil?
+    return true if params[:title] == nil || params[:release_year] == nil || params[:artist_id] == nil
+  
+    # Are they empty strings?
+    return true if params[:title] == "" || params[:release_year] == "" || params[:artist_id] == ""
+  
     return false
   end
 

@@ -141,4 +141,37 @@ describe Application do
       expect(response.status).to eq 400
     end
   end
+
+  context "GET /albums/new" do
+    it 'returns the form page' do
+      response = get('/albums/new')
+  
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form action="/albums/created" method="POST">')
+      
+  
+      # We can assert more things, like having
+      # the right HTML form inputs, etc.
+    end
+  end
+  
+  context "POST /albums/created" do
+    it 'returns a success page' do
+      response = post(
+        '/albums/created',
+        title: 'Surfer Rosa',
+        release_year: '1988',
+        artist_id: 2
+      )
+  
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Album successfully created</h1>')
+    end
+  
+    it 'responds with 400 status if parameters are invalid' do
+      response = post('/albums/created')
+
+      expect(response.status).to eq (400)
+    end
+  end
 end
